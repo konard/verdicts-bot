@@ -121,6 +121,6 @@ fs.readFile('token', 'utf8', (err, data) => {
     console.log("Make sure token file exists and contains Telegram Bot token");
     return;
   }
-  start(data);
+  start(data.trim());
 });
 
