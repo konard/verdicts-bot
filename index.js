@@ -42,7 +42,24 @@ function getVerdict(facts) {
 
 
 function start(token) {
-  const bot = new TelegramBot(token, {polling: true});
+  const bot = new TelegramBot(token, {
+    polling: true,
+    request: {
+      agentOptions: {
+        keepAlive: true,
+        family: 4
+      },
+      url: "https://api.telegram.org"
+    }
+  });
+
+  // Handle polling errors to prevent crashes
+  bot.on('polling_error', (error) => {
+    console.error('error: [polling_error]', JSON.stringify({
+      code: error.code,
+      message: error.message
+    }));
+  });
 
   bot.onText(/\/(re)?start/, (msg) => {
     const chatId = msg.chat.id;
